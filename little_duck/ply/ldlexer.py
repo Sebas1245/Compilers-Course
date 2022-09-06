@@ -23,12 +23,9 @@ tokens = (
 # literal symbols
 literals = [';', ',', ':', '{', '}', '=', '>', '<', '(', ')', '+', '-', '*', '/']
 
-# helper RegExs
-digit = r'([0-9])'
-letter = r'([A-Za-z])'
 
 # Token regular expressions
-t_CTE_STRING = r'\"(' + digit + r'|' + letter + r'| \_)*\"'
+t_CTE_STRING = r'\"[0-9A-Za-z_ ]*\"'
 t_DIFFERENT = r'\<\>'
 
 # Complex tokens
@@ -72,7 +69,7 @@ data = '''
 program hello; var p1, p2 : int;
 {
     if (p1 <> p2)
-        print("hello");
+        print("hello world");
     else
         print("world");
 }
