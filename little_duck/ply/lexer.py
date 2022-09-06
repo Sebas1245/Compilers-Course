@@ -18,7 +18,7 @@ reserved = {
 # List of token names
 tokens = (
    'CTE_I', 'CTE_F', 'CTE_STRING', 'ID', 'DIFFERENT'
-)
+) + tuple(reserved.values())
 
 # literal symbols
 literals = [';', ',', ':', '{', '}', '=', '>', '<', '(', ')', '+', '-', '*', '/']
