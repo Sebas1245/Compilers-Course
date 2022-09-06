@@ -14,6 +14,7 @@ reserved = {
     'else': 'ELSE',
     'int': 'INT',
     'float': 'FLOAT',
+    'print': 'PRINT'
 }
 # List of token names
 tokens = (
@@ -70,6 +71,12 @@ lexer = lex.lex()
 # Test it out
 data = '''
 program hello; var p1, p2 : int;
+{
+    if (p1 <> p2)
+        print("hello");
+    else
+        print("world");
+}
 '''
 
 # Give the lexer some input
