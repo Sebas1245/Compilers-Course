@@ -3,7 +3,6 @@
 #
 # tokenizer for Little Duck language
 # ------------------------------------------------------------
-from ply.lex import TOKEN
 import ply.lex as lex
 
 # Reserved words
