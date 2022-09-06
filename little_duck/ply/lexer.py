@@ -21,7 +21,7 @@ tokens = (
 )
 
 # literal symbols
-literals = [';', ',', '{', '}', '=', '>', '<', '(', ')', '+', '-', '*', '/']
+literals = [';', ',', ':', '{', '}', '=', '>', '<', '(', ')', '+', '-', '*', '/']
 
 # helper RegExs
 digit = r'([0-9])'
@@ -48,7 +48,6 @@ def t_ID(t):
         t.type = 'ID'
     else:
         t.type = reserved[t.value]
-        print("Illegal usage of reserved word as identifier") 
     return t
 
 # Define a rule so we can track line numbers
@@ -70,8 +69,7 @@ lexer = lex.lex()
 
 # Test it out
 data = '''
-3 + 4 * 10
-  + -20 *2
+program hello; var p1, p2 : int;
 '''
 
 # Give the lexer some input
