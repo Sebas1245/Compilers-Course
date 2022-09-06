@@ -38,13 +38,13 @@ def p_statement(p):
                  | write'''
 
 def p_assignment(p):
-    '''assignment : ID '=' expression'''
+    '''assignment : ID '=' expression ';' '''
 
 def p_expression(p):
     '''expression : exp
                   | exp '>' exp
                   | exp '<' exp
-                  | exp DIFFERENT exp'''
+                  | exp DIFFERENT exp '''
 
 def p_exp(p):
     '''exp : term 
@@ -81,11 +81,15 @@ def p_condition_p(p):
                    | ELSE block'''
 
 def p_write(p):
-    '''write : PRINT '(' CTE_STRING ')' ';' 
-             | PRINT '(' write_p ')' ';' '''
+    '''write : PRINT '(' write_p ')' ';' '''
 
 def p_write_p(p):
-    '''write_p : expression ',' expression'''
+    '''write_p : expression ',' write_p
+                | CTE_STRING ',' write_p
+                | expression ','
+                | CTE_STRING ','
+                | expression
+                | CTE_STRING '''
 
 # Error rule for syntax errors
 def p_error(p):
@@ -96,5 +100,5 @@ def p_empty(p):
     'empty :'
     pass
 
-ld_parser = yacc.yacc()
+ld_parser = yacc.yacc(debug=True)
 

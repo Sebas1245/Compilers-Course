@@ -29,15 +29,16 @@ t_CTE_STRING = r'\"[0-9A-Za-z_ ]*\"'
 t_DIFFERENT = r'\<\>'
 
 # Complex tokens
+def t_CTE_F(t):
+    r'\d+\.\d+'
+    t.value = float(t.value)
+    return t
+    
 def t_CTE_I(t):
-    r'([0-9])+'
+    r'\d+'
     t.value = int(t.value)
     return t
 
-def t_CTE_F(t):
-    r'([0-9])*\.([0-9])+'
-    t.value = float(t.value)
-    return t
 
 def t_ID(t):
     r'(\_)*[A-Za-z]([A-Za-z] | [0-9] | \_)*'
@@ -63,3 +64,20 @@ def t_error(t):
 
 # Build the lexer
 lexer = lex.lex()
+
+def test():
+    print('Testing')
+    file = open('hello_world.ld')
+    input_str = file.read()
+    file.close()
+    lexer.input(input_str)
+    # Tokenize
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break      # No more input
+        print(tok)
+
+
+if __name__ == '__main__':
+    test()
