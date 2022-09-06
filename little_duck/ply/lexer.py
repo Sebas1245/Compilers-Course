@@ -17,8 +17,8 @@ reserved = {
 }
 # List of token names
 tokens = (
-   'CTE_I', 'CTE_F', 'CTE_STRING', 'ID','DIFFERENT'
-   ) + list(reserved.values())
+   'CTE_I', 'CTE_F', 'CTE_STRING', 'ID', 'DIFFERENT'
+)
 
 # literal symbols
 literals = [';', ',', '{', '}', '=', '>', '<', '(', ')', '+', '-', '*', '/']
@@ -26,27 +26,24 @@ literals = [';', ',', '{', '}', '=', '>', '<', '(', ')', '+', '-', '*', '/']
 # helper RegExs
 digit = r'([0-9])'
 letter = r'([A-Za-z])'
-regex_CTE_I = digit + r'+'
-regex_CTE_F = digit + r'*\.' + digit + r'+'
-regex_ID = r'(\_*' + letter + r'(' + letter + r'|' + digit + r')*)'
 
 # Token regular expressions
-t_CTE_STRING = r'\"(' + digit + r'|' + letter + r')*\"'
+t_CTE_STRING = r'\"(' + digit + r'|' + letter + r'| \_)*\"'
 t_DIFFERENT = r'\<\>'
 
 # Complex tokens
 def t_CTE_I(t):
-    regex_CTE_I
+    r'([0-9])+'
     t.value = int(t.value)
     return t
 
 def t_CTE_F(t):
-    regex_CTE_F
+    r'([0-9])*\.([0-9])+'
     t.value = float(t.value)
     return t
 
 def t_ID(t):
-    regex_ID
+    r'(\_)*[A-Za-z]([A-Za-z] | [0-9] | \_)*'
     if t.value not in reserved:
         t.type = 'ID'
     else:
@@ -70,3 +67,19 @@ def t_error(t):
 
 # Build the lexer
 lexer = lex.lex()
+
+# Test it out
+data = '''
+3 + 4 * 10
+  + -20 *2
+'''
+
+# Give the lexer some input
+lexer.input(data)
+
+# Tokenize
+while True:
+    tok = lexer.token()
+    if not tok:
+        break      # No more input
+    print(tok)
