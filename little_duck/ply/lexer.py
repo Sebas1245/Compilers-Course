@@ -1,33 +1,57 @@
 # ------------------------------------------------------------
-# calclex.py
+# lexer.py
 #
-# tokenizer for a simple expression evaluator for
-# numbers and +,-,*,/
+# tokenizer for Little Duck language
 # ------------------------------------------------------------
+from ply.lex import TOKEN
 import ply.lex as lex
-# List of token names.   This is always required
+
+# Reserved words
+reserved = {
+    'program': 'PROGRAM',
+    'var': 'VAR',
+    'if': 'IF',
+    'else': 'ELSE',
+    'int': 'INT',
+    'float': 'FLOAT',
+}
+# List of token names
 tokens = (
-   'NUMBER',
-   'PLUS',
-   'MINUS',
-   'TIMES',
-   'DIVIDE',
-   'LPAREN',
-   'RPAREN',
-)
+   'CTE_I', 'CTE_F', 'CTE_STRING', 'ID','DIFFERENT'
+   ) + list(reserved.values())
 
-# Regular expression rules for simple tokens
-t_PLUS    = r'\+'
-t_MINUS   = r'-'
-t_TIMES   = r'\*'
-t_DIVIDE  = r'/'
-t_LPAREN  = r'\('
-t_RPAREN  = r'\)'
+# literal symbols
+literals = [';', ',', '{', '}', '=', '>', '<', '(', ')', '+', '-', '*', '/']
 
-# A regular expression rule with some action code
-def t_NUMBER(t):
-    r'\d+'
+# helper RegExs
+digit = r'([0-9])'
+letter = r'([A-Za-z])'
+regex_CTE_I = digit + r'+'
+regex_CTE_F = digit + r'*\.' + digit + r'+'
+regex_ID = r'(\_*' + letter + r'(' + letter + r'|' + digit + r')*)'
+
+# Token regular expressions
+t_CTE_STRING = r'\"(' + digit + r'|' + letter + r')*\"'
+t_DIFFERENT = r'\<\>'
+
+# Complex tokens
+def t_CTE_I(t):
+    regex_CTE_I
     t.value = int(t.value)
+    return t
+
+def t_CTE_F(t):
+    regex_CTE_F
+    t.value = float(t.value)
+    return t
+
+def t_ID(t):
+    regex_ID
+    if t.value not in reserved:
+        t.type = 'ID'
+    else:
+        t.type = reserved[t.value]
+        print("Illegal usage of reserved word as identifier") 
     return t
 
 # Define a rule so we can track line numbers
@@ -40,24 +64,9 @@ t_ignore  = ' \t'
 
 # Error handling rule
 def t_error(t):
+    print(t)
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
 # Build the lexer
 lexer = lex.lex()
-
-# Test it out
-data = '''
-3 + 4 * 10
-  + -20 *2
-'''
-
-# Give the lexer some input
-lexer.input(data)
-
-# Tokenize
-while True:
-    tok = lexer.token()
-    if not tok:
-        break      # No more input
-    print(tok)
