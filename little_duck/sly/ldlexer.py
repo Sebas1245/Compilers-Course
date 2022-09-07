@@ -53,7 +53,7 @@ class LDLexer(Lexer):
 
     
 if __name__ == '__main__':
-    file = open('hello_world.ld')
+    file = open('test_correct.ld')
     data = file.read()
     file.close()
     lexer = LDLexer()

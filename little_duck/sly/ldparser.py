@@ -8,6 +8,8 @@ from sly import Parser
 from ldlexer import LDLexer
 
 class LDParser(Parser):
+    debugfile = 'parser.out'
+
     # Get token set
     tokens = LDLexer.tokens
 
@@ -17,14 +19,17 @@ class LDParser(Parser):
     def programa(self, p):
         pass
 
-    @_('VAR identifier',
-        'VAR identifier ":" type ";"  identifier')
+    @_('VAR vars_p')
     def vars(self, p):
         pass
+    
+    @_('identifier ":" type ";" vars_p',
+        'identifier ":" type ";"')
+    def vars_p(self, p):
+        pass
 
-    @_('ID "," identifier',
-        'ID',
-        'empty')
+    @_('ID',
+        'ID "," identifier')
     def identifier(self, p):
         pass 
 
@@ -33,13 +38,14 @@ class LDParser(Parser):
     def type(self, p):
         pass
 
-    @_('"{" e "}"')
+    @_(' "{" block_p "}" ',
+        ' "{" "}" ')
     def block(self, p):
         pass
     
-    @_('statement e',
-        'empty')
-    def e(self, p):
+    @_('statement block_p',
+        'statement')
+    def block_p(self, p):
         pass
     
     @_('assignment',
@@ -47,6 +53,7 @@ class LDParser(Parser):
         'write')
     def statement(self, p):
         pass
+
 
     @_('ID "=" expression ";"')
     def assignment(self, p):
@@ -92,29 +99,27 @@ class LDParser(Parser):
     def const_var(self, p):
         pass
 
-    @_('IF "(" expression ")" block condition_p')
+    @_('IF "(" expression ")" block ";"',
+        'IF "(" expression ")" block ELSE block ";"')
     def condition(self, p):
-        pass
-
-    @_('";"',
-        'ELSE block')
-    def condition_p(self, p):
         pass
 
     @_('PRINT "(" write_p ")" ";"') 
     def write(self, p):
         pass
 
-    @_('expression "," write_p',
-        'CTE_STRING "," write_p',
-        'expression ","',
-        'CTE_STRING ","',
-        'expression',
-        'CTE_STRING')
+    @_('write_p2 ',
+        'write_p2 "," write_p')
     def write_p(self, p):
         pass
 
-    @_('')
-    def empty(self, sp):
+    @_('expression',
+        'CTE_STRING')
+    def write_p2(self, p):
         pass
+
+     # Error handling rule
+    def error(self, t):
+        print("Illegal character '%s'" % t.value[0])
+        raise Exception(t)
 
