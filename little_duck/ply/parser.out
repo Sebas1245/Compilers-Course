@@ -1,0 +1,1187 @@
+Created by PLY (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> PROGRAM ID ; vars block
+Rule 2     programa -> PROGRAM ID ; block
+Rule 3     vars -> VAR vars_p
+Rule 4     vars_p -> identifier : type ; vars_p
+Rule 5     vars_p -> identifier : type ;
+Rule 6     identifier -> ID , identifier
+Rule 7     identifier -> ID
+Rule 8     type -> INT
+Rule 9     type -> FLOAT
+Rule 10    block -> { block_p }
+Rule 11    block -> { }
+Rule 12    block_p -> statement block_p
+Rule 13    block_p -> statement
+Rule 14    statement -> assignment
+Rule 15    statement -> condition
+Rule 16    statement -> write
+Rule 17    assignment -> ID = expression ;
+Rule 18    expression -> exp
+Rule 19    expression -> exp > exp
+Rule 20    expression -> exp < exp
+Rule 21    expression -> exp DIFFERENT exp
+Rule 22    exp -> term
+Rule 23    exp -> term + term
+Rule 24    exp -> term - term
+Rule 25    term -> factor
+Rule 26    term -> factor * factor
+Rule 27    term -> factor / factor
+Rule 28    factor -> ( expression )
+Rule 29    factor -> + const_var
+Rule 30    factor -> - const_var
+Rule 31    factor -> const_var
+Rule 32    const_var -> ID
+Rule 33    const_var -> CTE_I
+Rule 34    const_var -> CTE_F
+Rule 35    condition -> IF ( expression ) block ;
+Rule 36    condition -> IF ( expression ) block ELSE block ;
+Rule 37    write -> PRINT ( write_p ) ;
+Rule 38    write_p -> write_p2
+Rule 39    write_p -> write_p2 , write_p
+Rule 40    write_p2 -> expression
+Rule 41    write_p2 -> CTE_STRING
+
+Terminals, with rules where they appear
+
+(                    : 28 35 36 37
+)                    : 28 35 36 37
+*                    : 26
++                    : 23 29
+,                    : 6 39
+-                    : 24 30
+/                    : 27
+:                    : 4 5
+;                    : 1 2 4 5 17 35 36 37
+<                    : 20
+=                    : 17
+>                    : 19
+CTE_F                : 34
+CTE_I                : 33
+CTE_STRING           : 41
+DIFFERENT            : 21
+ELSE                 : 36
+FLOAT                : 9
+ID                   : 1 2 6 7 17 32
+IF                   : 35 36
+INT                  : 8
+PRINT                : 37
+PROGRAM              : 1 2
+VAR                  : 3
+error                : 
+{                    : 10 11
+}                    : 10 11
+
+Nonterminals, with rules where they appear
+
+assignment           : 14
+block                : 1 2 35 36 36
+block_p              : 10 12
+condition            : 15
+const_var            : 29 30 31
+exp                  : 18 19 19 20 20 21 21
+expression           : 17 28 35 36 40
+factor               : 25 26 26 27 27
+identifier           : 4 5 6
+programa             : 0
+statement            : 12 13
+term                 : 22 23 23 24 24
+type                 : 4 5
+vars                 : 1
+vars_p               : 3 4
+write                : 16
+write_p              : 37 39
+write_p2             : 38 39
+
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . PROGRAM ID ; vars block
+    (2) programa -> . PROGRAM ID ; block
+
+    PROGRAM         shift and go to state 2
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> PROGRAM . ID ; vars block
+    (2) programa -> PROGRAM . ID ; block
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) programa -> PROGRAM ID . ; vars block
+    (2) programa -> PROGRAM ID . ; block
+
+    ;               shift and go to state 4
+
+
+state 4
+
+    (1) programa -> PROGRAM ID ; . vars block
+    (2) programa -> PROGRAM ID ; . block
+    (3) vars -> . VAR vars_p
+    (10) block -> . { block_p }
+    (11) block -> . { }
+
+    VAR             shift and go to state 7
+    {               shift and go to state 8
+
+    vars                           shift and go to state 5
+    block                          shift and go to state 6
+
+state 5
+
+    (1) programa -> PROGRAM ID ; vars . block
+    (10) block -> . { block_p }
+    (11) block -> . { }
+
+    {               shift and go to state 8
+
+    block                          shift and go to state 9
+
+state 6
+
+    (2) programa -> PROGRAM ID ; block .
+
+    $end            reduce using rule 2 (programa -> PROGRAM ID ; block .)
+
+
+state 7
+
+    (3) vars -> VAR . vars_p
+    (4) vars_p -> . identifier : type ; vars_p
+    (5) vars_p -> . identifier : type ;
+    (6) identifier -> . ID , identifier
+    (7) identifier -> . ID
+
+    ID              shift and go to state 12
+
+    vars_p                         shift and go to state 10
+    identifier                     shift and go to state 11
+
+state 8
+
+    (10) block -> { . block_p }
+    (11) block -> { . }
+    (12) block_p -> . statement block_p
+    (13) block_p -> . statement
+    (14) statement -> . assignment
+    (15) statement -> . condition
+    (16) statement -> . write
+    (17) assignment -> . ID = expression ;
+    (35) condition -> . IF ( expression ) block ;
+    (36) condition -> . IF ( expression ) block ELSE block ;
+    (37) write -> . PRINT ( write_p ) ;
+
+    }               shift and go to state 14
+    ID              shift and go to state 19
+    IF              shift and go to state 20
+    PRINT           shift and go to state 21
+
+    block_p                        shift and go to state 13
+    statement                      shift and go to state 15
+    assignment                     shift and go to state 16
+    condition                      shift and go to state 17
+    write                          shift and go to state 18
+
+state 9
+
+    (1) programa -> PROGRAM ID ; vars block .
+
+    $end            reduce using rule 1 (programa -> PROGRAM ID ; vars block .)
+
+
+state 10
+
+    (3) vars -> VAR vars_p .
+
+    {               reduce using rule 3 (vars -> VAR vars_p .)
+
+
+state 11
+
+    (4) vars_p -> identifier . : type ; vars_p
+    (5) vars_p -> identifier . : type ;
+
+    :               shift and go to state 22
+
+
+state 12
+
+    (6) identifier -> ID . , identifier
+    (7) identifier -> ID .
+
+    ,               shift and go to state 23
+    :               reduce using rule 7 (identifier -> ID .)
+
+
+state 13
+
+    (10) block -> { block_p . }
+
+    }               shift and go to state 24
+
+
+state 14
+
+    (11) block -> { } .
+
+    $end            reduce using rule 11 (block -> { } .)
+    ;               reduce using rule 11 (block -> { } .)
+    ELSE            reduce using rule 11 (block -> { } .)
+
+
+state 15
+
+    (12) block_p -> statement . block_p
+    (13) block_p -> statement .
+    (12) block_p -> . statement block_p
+    (13) block_p -> . statement
+    (14) statement -> . assignment
+    (15) statement -> . condition
+    (16) statement -> . write
+    (17) assignment -> . ID = expression ;
+    (35) condition -> . IF ( expression ) block ;
+    (36) condition -> . IF ( expression ) block ELSE block ;
+    (37) write -> . PRINT ( write_p ) ;
+
+    }               reduce using rule 13 (block_p -> statement .)
+    ID              shift and go to state 19
+    IF              shift and go to state 20
+    PRINT           shift and go to state 21
+
+    statement                      shift and go to state 15
+    block_p                        shift and go to state 25
+    assignment                     shift and go to state 16
+    condition                      shift and go to state 17
+    write                          shift and go to state 18
+
+state 16
+
+    (14) statement -> assignment .
+
+    ID              reduce using rule 14 (statement -> assignment .)
+    IF              reduce using rule 14 (statement -> assignment .)
+    PRINT           reduce using rule 14 (statement -> assignment .)
+    }               reduce using rule 14 (statement -> assignment .)
+
+
+state 17
+
+    (15) statement -> condition .
+
+    ID              reduce using rule 15 (statement -> condition .)
+    IF              reduce using rule 15 (statement -> condition .)
+    PRINT           reduce using rule 15 (statement -> condition .)
+    }               reduce using rule 15 (statement -> condition .)
+
+
+state 18
+
+    (16) statement -> write .
+
+    ID              reduce using rule 16 (statement -> write .)
+    IF              reduce using rule 16 (statement -> write .)
+    PRINT           reduce using rule 16 (statement -> write .)
+    }               reduce using rule 16 (statement -> write .)
+
+
+state 19
+
+    (17) assignment -> ID . = expression ;
+
+    =               shift and go to state 26
+
+
+state 20
+
+    (35) condition -> IF . ( expression ) block ;
+    (36) condition -> IF . ( expression ) block ELSE block ;
+
+    (               shift and go to state 27
+
+
+state 21
+
+    (37) write -> PRINT . ( write_p ) ;
+
+    (               shift and go to state 28
+
+
+state 22
+
+    (4) vars_p -> identifier : . type ; vars_p
+    (5) vars_p -> identifier : . type ;
+    (8) type -> . INT
+    (9) type -> . FLOAT
+
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+
+    type                           shift and go to state 29
+
+state 23
+
+    (6) identifier -> ID , . identifier
+    (6) identifier -> . ID , identifier
+    (7) identifier -> . ID
+
+    ID              shift and go to state 12
+
+    identifier                     shift and go to state 32
+
+state 24
+
+    (10) block -> { block_p } .
+
+    $end            reduce using rule 10 (block -> { block_p } .)
+    ;               reduce using rule 10 (block -> { block_p } .)
+    ELSE            reduce using rule 10 (block -> { block_p } .)
+
+
+state 25
+
+    (12) block_p -> statement block_p .
+
+    }               reduce using rule 12 (block_p -> statement block_p .)
+
+
+state 26
+
+    (17) assignment -> ID = . expression ;
+    (18) expression -> . exp
+    (19) expression -> . exp > exp
+    (20) expression -> . exp < exp
+    (21) expression -> . exp DIFFERENT exp
+    (22) exp -> . term
+    (23) exp -> . term + term
+    (24) exp -> . term - term
+    (25) term -> . factor
+    (26) term -> . factor * factor
+    (27) term -> . factor / factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    expression                     shift and go to state 34
+    exp                            shift and go to state 35
+    term                           shift and go to state 36
+    factor                         shift and go to state 39
+    const_var                      shift and go to state 41
+
+state 27
+
+    (35) condition -> IF ( . expression ) block ;
+    (36) condition -> IF ( . expression ) block ELSE block ;
+    (18) expression -> . exp
+    (19) expression -> . exp > exp
+    (20) expression -> . exp < exp
+    (21) expression -> . exp DIFFERENT exp
+    (22) exp -> . term
+    (23) exp -> . term + term
+    (24) exp -> . term - term
+    (25) term -> . factor
+    (26) term -> . factor * factor
+    (27) term -> . factor / factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    expression                     shift and go to state 44
+    exp                            shift and go to state 35
+    term                           shift and go to state 36
+    factor                         shift and go to state 39
+    const_var                      shift and go to state 41
+
+state 28
+
+    (37) write -> PRINT ( . write_p ) ;
+    (38) write_p -> . write_p2
+    (39) write_p -> . write_p2 , write_p
+    (40) write_p2 -> . expression
+    (41) write_p2 -> . CTE_STRING
+    (18) expression -> . exp
+    (19) expression -> . exp > exp
+    (20) expression -> . exp < exp
+    (21) expression -> . exp DIFFERENT exp
+    (22) exp -> . term
+    (23) exp -> . term + term
+    (24) exp -> . term - term
+    (25) term -> . factor
+    (26) term -> . factor * factor
+    (27) term -> . factor / factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    CTE_STRING      shift and go to state 48
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    write_p                        shift and go to state 45
+    write_p2                       shift and go to state 46
+    expression                     shift and go to state 47
+    exp                            shift and go to state 35
+    term                           shift and go to state 36
+    factor                         shift and go to state 39
+    const_var                      shift and go to state 41
+
+state 29
+
+    (4) vars_p -> identifier : type . ; vars_p
+    (5) vars_p -> identifier : type . ;
+
+    ;               shift and go to state 49
+
+
+state 30
+
+    (8) type -> INT .
+
+    ;               reduce using rule 8 (type -> INT .)
+
+
+state 31
+
+    (9) type -> FLOAT .
+
+    ;               reduce using rule 9 (type -> FLOAT .)
+
+
+state 32
+
+    (6) identifier -> ID , identifier .
+
+    :               reduce using rule 6 (identifier -> ID , identifier .)
+
+
+state 33
+
+    (32) const_var -> ID .
+
+    *               reduce using rule 32 (const_var -> ID .)
+    /               reduce using rule 32 (const_var -> ID .)
+    +               reduce using rule 32 (const_var -> ID .)
+    -               reduce using rule 32 (const_var -> ID .)
+    >               reduce using rule 32 (const_var -> ID .)
+    <               reduce using rule 32 (const_var -> ID .)
+    DIFFERENT       reduce using rule 32 (const_var -> ID .)
+    ;               reduce using rule 32 (const_var -> ID .)
+    )               reduce using rule 32 (const_var -> ID .)
+    ,               reduce using rule 32 (const_var -> ID .)
+
+
+state 34
+
+    (17) assignment -> ID = expression . ;
+
+    ;               shift and go to state 50
+
+
+state 35
+
+    (18) expression -> exp .
+    (19) expression -> exp . > exp
+    (20) expression -> exp . < exp
+    (21) expression -> exp . DIFFERENT exp
+
+    ;               reduce using rule 18 (expression -> exp .)
+    )               reduce using rule 18 (expression -> exp .)
+    ,               reduce using rule 18 (expression -> exp .)
+    >               shift and go to state 51
+    <               shift and go to state 52
+    DIFFERENT       shift and go to state 53
+
+
+state 36
+
+    (22) exp -> term .
+    (23) exp -> term . + term
+    (24) exp -> term . - term
+
+    >               reduce using rule 22 (exp -> term .)
+    <               reduce using rule 22 (exp -> term .)
+    DIFFERENT       reduce using rule 22 (exp -> term .)
+    ;               reduce using rule 22 (exp -> term .)
+    )               reduce using rule 22 (exp -> term .)
+    ,               reduce using rule 22 (exp -> term .)
+    +               shift and go to state 54
+    -               shift and go to state 55
+
+
+state 37
+
+    (29) factor -> + . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    const_var                      shift and go to state 56
+
+state 38
+
+    (30) factor -> - . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    const_var                      shift and go to state 57
+
+state 39
+
+    (25) term -> factor .
+    (26) term -> factor . * factor
+    (27) term -> factor . / factor
+
+    +               reduce using rule 25 (term -> factor .)
+    -               reduce using rule 25 (term -> factor .)
+    >               reduce using rule 25 (term -> factor .)
+    <               reduce using rule 25 (term -> factor .)
+    DIFFERENT       reduce using rule 25 (term -> factor .)
+    ;               reduce using rule 25 (term -> factor .)
+    )               reduce using rule 25 (term -> factor .)
+    ,               reduce using rule 25 (term -> factor .)
+    *               shift and go to state 58
+    /               shift and go to state 59
+
+
+state 40
+
+    (28) factor -> ( . expression )
+    (18) expression -> . exp
+    (19) expression -> . exp > exp
+    (20) expression -> . exp < exp
+    (21) expression -> . exp DIFFERENT exp
+    (22) exp -> . term
+    (23) exp -> . term + term
+    (24) exp -> . term - term
+    (25) term -> . factor
+    (26) term -> . factor * factor
+    (27) term -> . factor / factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    expression                     shift and go to state 60
+    exp                            shift and go to state 35
+    term                           shift and go to state 36
+    factor                         shift and go to state 39
+    const_var                      shift and go to state 41
+
+state 41
+
+    (31) factor -> const_var .
+
+    *               reduce using rule 31 (factor -> const_var .)
+    /               reduce using rule 31 (factor -> const_var .)
+    +               reduce using rule 31 (factor -> const_var .)
+    -               reduce using rule 31 (factor -> const_var .)
+    >               reduce using rule 31 (factor -> const_var .)
+    <               reduce using rule 31 (factor -> const_var .)
+    DIFFERENT       reduce using rule 31 (factor -> const_var .)
+    ;               reduce using rule 31 (factor -> const_var .)
+    )               reduce using rule 31 (factor -> const_var .)
+    ,               reduce using rule 31 (factor -> const_var .)
+
+
+state 42
+
+    (33) const_var -> CTE_I .
+
+    *               reduce using rule 33 (const_var -> CTE_I .)
+    /               reduce using rule 33 (const_var -> CTE_I .)
+    +               reduce using rule 33 (const_var -> CTE_I .)
+    -               reduce using rule 33 (const_var -> CTE_I .)
+    >               reduce using rule 33 (const_var -> CTE_I .)
+    <               reduce using rule 33 (const_var -> CTE_I .)
+    DIFFERENT       reduce using rule 33 (const_var -> CTE_I .)
+    ;               reduce using rule 33 (const_var -> CTE_I .)
+    )               reduce using rule 33 (const_var -> CTE_I .)
+    ,               reduce using rule 33 (const_var -> CTE_I .)
+
+
+state 43
+
+    (34) const_var -> CTE_F .
+
+    *               reduce using rule 34 (const_var -> CTE_F .)
+    /               reduce using rule 34 (const_var -> CTE_F .)
+    +               reduce using rule 34 (const_var -> CTE_F .)
+    -               reduce using rule 34 (const_var -> CTE_F .)
+    >               reduce using rule 34 (const_var -> CTE_F .)
+    <               reduce using rule 34 (const_var -> CTE_F .)
+    DIFFERENT       reduce using rule 34 (const_var -> CTE_F .)
+    ;               reduce using rule 34 (const_var -> CTE_F .)
+    )               reduce using rule 34 (const_var -> CTE_F .)
+    ,               reduce using rule 34 (const_var -> CTE_F .)
+
+
+state 44
+
+    (35) condition -> IF ( expression . ) block ;
+    (36) condition -> IF ( expression . ) block ELSE block ;
+
+    )               shift and go to state 61
+
+
+state 45
+
+    (37) write -> PRINT ( write_p . ) ;
+
+    )               shift and go to state 62
+
+
+state 46
+
+    (38) write_p -> write_p2 .
+    (39) write_p -> write_p2 . , write_p
+
+    )               reduce using rule 38 (write_p -> write_p2 .)
+    ,               shift and go to state 63
+
+
+state 47
+
+    (40) write_p2 -> expression .
+
+    ,               reduce using rule 40 (write_p2 -> expression .)
+    )               reduce using rule 40 (write_p2 -> expression .)
+
+
+state 48
+
+    (41) write_p2 -> CTE_STRING .
+
+    ,               reduce using rule 41 (write_p2 -> CTE_STRING .)
+    )               reduce using rule 41 (write_p2 -> CTE_STRING .)
+
+
+state 49
+
+    (4) vars_p -> identifier : type ; . vars_p
+    (5) vars_p -> identifier : type ; .
+    (4) vars_p -> . identifier : type ; vars_p
+    (5) vars_p -> . identifier : type ;
+    (6) identifier -> . ID , identifier
+    (7) identifier -> . ID
+
+    {               reduce using rule 5 (vars_p -> identifier : type ; .)
+    ID              shift and go to state 12
+
+    identifier                     shift and go to state 11
+    vars_p                         shift and go to state 64
+
+state 50
+
+    (17) assignment -> ID = expression ; .
+
+    ID              reduce using rule 17 (assignment -> ID = expression ; .)
+    IF              reduce using rule 17 (assignment -> ID = expression ; .)
+    PRINT           reduce using rule 17 (assignment -> ID = expression ; .)
+    }               reduce using rule 17 (assignment -> ID = expression ; .)
+
+
+state 51
+
+    (19) expression -> exp > . exp
+    (22) exp -> . term
+    (23) exp -> . term + term
+    (24) exp -> . term - term
+    (25) term -> . factor
+    (26) term -> . factor * factor
+    (27) term -> . factor / factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    exp                            shift and go to state 65
+    term                           shift and go to state 36
+    factor                         shift and go to state 39
+    const_var                      shift and go to state 41
+
+state 52
+
+    (20) expression -> exp < . exp
+    (22) exp -> . term
+    (23) exp -> . term + term
+    (24) exp -> . term - term
+    (25) term -> . factor
+    (26) term -> . factor * factor
+    (27) term -> . factor / factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    exp                            shift and go to state 66
+    term                           shift and go to state 36
+    factor                         shift and go to state 39
+    const_var                      shift and go to state 41
+
+state 53
+
+    (21) expression -> exp DIFFERENT . exp
+    (22) exp -> . term
+    (23) exp -> . term + term
+    (24) exp -> . term - term
+    (25) term -> . factor
+    (26) term -> . factor * factor
+    (27) term -> . factor / factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    exp                            shift and go to state 67
+    term                           shift and go to state 36
+    factor                         shift and go to state 39
+    const_var                      shift and go to state 41
+
+state 54
+
+    (23) exp -> term + . term
+    (25) term -> . factor
+    (26) term -> . factor * factor
+    (27) term -> . factor / factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    term                           shift and go to state 68
+    factor                         shift and go to state 39
+    const_var                      shift and go to state 41
+
+state 55
+
+    (24) exp -> term - . term
+    (25) term -> . factor
+    (26) term -> . factor * factor
+    (27) term -> . factor / factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    term                           shift and go to state 69
+    factor                         shift and go to state 39
+    const_var                      shift and go to state 41
+
+state 56
+
+    (29) factor -> + const_var .
+
+    *               reduce using rule 29 (factor -> + const_var .)
+    /               reduce using rule 29 (factor -> + const_var .)
+    +               reduce using rule 29 (factor -> + const_var .)
+    -               reduce using rule 29 (factor -> + const_var .)
+    >               reduce using rule 29 (factor -> + const_var .)
+    <               reduce using rule 29 (factor -> + const_var .)
+    DIFFERENT       reduce using rule 29 (factor -> + const_var .)
+    ;               reduce using rule 29 (factor -> + const_var .)
+    )               reduce using rule 29 (factor -> + const_var .)
+    ,               reduce using rule 29 (factor -> + const_var .)
+
+
+state 57
+
+    (30) factor -> - const_var .
+
+    *               reduce using rule 30 (factor -> - const_var .)
+    /               reduce using rule 30 (factor -> - const_var .)
+    +               reduce using rule 30 (factor -> - const_var .)
+    -               reduce using rule 30 (factor -> - const_var .)
+    >               reduce using rule 30 (factor -> - const_var .)
+    <               reduce using rule 30 (factor -> - const_var .)
+    DIFFERENT       reduce using rule 30 (factor -> - const_var .)
+    ;               reduce using rule 30 (factor -> - const_var .)
+    )               reduce using rule 30 (factor -> - const_var .)
+    ,               reduce using rule 30 (factor -> - const_var .)
+
+
+state 58
+
+    (26) term -> factor * . factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    factor                         shift and go to state 70
+    const_var                      shift and go to state 41
+
+state 59
+
+    (27) term -> factor / . factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    factor                         shift and go to state 71
+    const_var                      shift and go to state 41
+
+state 60
+
+    (28) factor -> ( expression . )
+
+    )               shift and go to state 72
+
+
+state 61
+
+    (35) condition -> IF ( expression ) . block ;
+    (36) condition -> IF ( expression ) . block ELSE block ;
+    (10) block -> . { block_p }
+    (11) block -> . { }
+
+    {               shift and go to state 8
+
+    block                          shift and go to state 73
+
+state 62
+
+    (37) write -> PRINT ( write_p ) . ;
+
+    ;               shift and go to state 74
+
+
+state 63
+
+    (39) write_p -> write_p2 , . write_p
+    (38) write_p -> . write_p2
+    (39) write_p -> . write_p2 , write_p
+    (40) write_p2 -> . expression
+    (41) write_p2 -> . CTE_STRING
+    (18) expression -> . exp
+    (19) expression -> . exp > exp
+    (20) expression -> . exp < exp
+    (21) expression -> . exp DIFFERENT exp
+    (22) exp -> . term
+    (23) exp -> . term + term
+    (24) exp -> . term - term
+    (25) term -> . factor
+    (26) term -> . factor * factor
+    (27) term -> . factor / factor
+    (28) factor -> . ( expression )
+    (29) factor -> . + const_var
+    (30) factor -> . - const_var
+    (31) factor -> . const_var
+    (32) const_var -> . ID
+    (33) const_var -> . CTE_I
+    (34) const_var -> . CTE_F
+
+    CTE_STRING      shift and go to state 48
+    (               shift and go to state 40
+    +               shift and go to state 37
+    -               shift and go to state 38
+    ID              shift and go to state 33
+    CTE_I           shift and go to state 42
+    CTE_F           shift and go to state 43
+
+    write_p2                       shift and go to state 46
+    write_p                        shift and go to state 75
+    expression                     shift and go to state 47
+    exp                            shift and go to state 35
+    term                           shift and go to state 36
+    factor                         shift and go to state 39
+    const_var                      shift and go to state 41
+
+state 64
+
+    (4) vars_p -> identifier : type ; vars_p .
+
+    {               reduce using rule 4 (vars_p -> identifier : type ; vars_p .)
+
+
+state 65
+
+    (19) expression -> exp > exp .
+
+    ;               reduce using rule 19 (expression -> exp > exp .)
+    )               reduce using rule 19 (expression -> exp > exp .)
+    ,               reduce using rule 19 (expression -> exp > exp .)
+
+
+state 66
+
+    (20) expression -> exp < exp .
+
+    ;               reduce using rule 20 (expression -> exp < exp .)
+    )               reduce using rule 20 (expression -> exp < exp .)
+    ,               reduce using rule 20 (expression -> exp < exp .)
+
+
+state 67
+
+    (21) expression -> exp DIFFERENT exp .
+
+    ;               reduce using rule 21 (expression -> exp DIFFERENT exp .)
+    )               reduce using rule 21 (expression -> exp DIFFERENT exp .)
+    ,               reduce using rule 21 (expression -> exp DIFFERENT exp .)
+
+
+state 68
+
+    (23) exp -> term + term .
+
+    >               reduce using rule 23 (exp -> term + term .)
+    <               reduce using rule 23 (exp -> term + term .)
+    DIFFERENT       reduce using rule 23 (exp -> term + term .)
+    ;               reduce using rule 23 (exp -> term + term .)
+    )               reduce using rule 23 (exp -> term + term .)
+    ,               reduce using rule 23 (exp -> term + term .)
+
+
+state 69
+
+    (24) exp -> term - term .
+
+    >               reduce using rule 24 (exp -> term - term .)
+    <               reduce using rule 24 (exp -> term - term .)
+    DIFFERENT       reduce using rule 24 (exp -> term - term .)
+    ;               reduce using rule 24 (exp -> term - term .)
+    )               reduce using rule 24 (exp -> term - term .)
+    ,               reduce using rule 24 (exp -> term - term .)
+
+
+state 70
+
+    (26) term -> factor * factor .
+
+    +               reduce using rule 26 (term -> factor * factor .)
+    -               reduce using rule 26 (term -> factor * factor .)
+    >               reduce using rule 26 (term -> factor * factor .)
+    <               reduce using rule 26 (term -> factor * factor .)
+    DIFFERENT       reduce using rule 26 (term -> factor * factor .)
+    ;               reduce using rule 26 (term -> factor * factor .)
+    )               reduce using rule 26 (term -> factor * factor .)
+    ,               reduce using rule 26 (term -> factor * factor .)
+
+
+state 71
+
+    (27) term -> factor / factor .
+
+    +               reduce using rule 27 (term -> factor / factor .)
+    -               reduce using rule 27 (term -> factor / factor .)
+    >               reduce using rule 27 (term -> factor / factor .)
+    <               reduce using rule 27 (term -> factor / factor .)
+    DIFFERENT       reduce using rule 27 (term -> factor / factor .)
+    ;               reduce using rule 27 (term -> factor / factor .)
+    )               reduce using rule 27 (term -> factor / factor .)
+    ,               reduce using rule 27 (term -> factor / factor .)
+
+
+state 72
+
+    (28) factor -> ( expression ) .
+
+    *               reduce using rule 28 (factor -> ( expression ) .)
+    /               reduce using rule 28 (factor -> ( expression ) .)
+    +               reduce using rule 28 (factor -> ( expression ) .)
+    -               reduce using rule 28 (factor -> ( expression ) .)
+    >               reduce using rule 28 (factor -> ( expression ) .)
+    <               reduce using rule 28 (factor -> ( expression ) .)
+    DIFFERENT       reduce using rule 28 (factor -> ( expression ) .)
+    ;               reduce using rule 28 (factor -> ( expression ) .)
+    )               reduce using rule 28 (factor -> ( expression ) .)
+    ,               reduce using rule 28 (factor -> ( expression ) .)
+
+
+state 73
+
+    (35) condition -> IF ( expression ) block . ;
+    (36) condition -> IF ( expression ) block . ELSE block ;
+
+    ;               shift and go to state 76
+    ELSE            shift and go to state 77
+
+
+state 74
+
+    (37) write -> PRINT ( write_p ) ; .
+
+    ID              reduce using rule 37 (write -> PRINT ( write_p ) ; .)
+    IF              reduce using rule 37 (write -> PRINT ( write_p ) ; .)
+    PRINT           reduce using rule 37 (write -> PRINT ( write_p ) ; .)
+    }               reduce using rule 37 (write -> PRINT ( write_p ) ; .)
+
+
+state 75
+
+    (39) write_p -> write_p2 , write_p .
+
+    )               reduce using rule 39 (write_p -> write_p2 , write_p .)
+
+
+state 76
+
+    (35) condition -> IF ( expression ) block ; .
+
+    ID              reduce using rule 35 (condition -> IF ( expression ) block ; .)
+    IF              reduce using rule 35 (condition -> IF ( expression ) block ; .)
+    PRINT           reduce using rule 35 (condition -> IF ( expression ) block ; .)
+    }               reduce using rule 35 (condition -> IF ( expression ) block ; .)
+
+
+state 77
+
+    (36) condition -> IF ( expression ) block ELSE . block ;
+    (10) block -> . { block_p }
+    (11) block -> . { }
+
+    {               shift and go to state 8
+
+    block                          shift and go to state 78
+
+state 78
+
+    (36) condition -> IF ( expression ) block ELSE block . ;
+
+    ;               shift and go to state 79
+
+
+state 79
+
+    (36) condition -> IF ( expression ) block ELSE block ; .
+
+    ID              reduce using rule 36 (condition -> IF ( expression ) block ELSE block ; .)
+    IF              reduce using rule 36 (condition -> IF ( expression ) block ELSE block ; .)
+    PRINT           reduce using rule 36 (condition -> IF ( expression ) block ELSE block ; .)
+    }               reduce using rule 36 (condition -> IF ( expression ) block ELSE block ; .)
+

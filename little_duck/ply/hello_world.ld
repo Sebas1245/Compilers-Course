@@ -8,5 +8,6 @@ program hello; var p1, p2, a : int;
         print(a, p2);
     } else {
         print("world");
-    }
+        a = 3.0023;
+    };
 }
